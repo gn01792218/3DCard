@@ -52,11 +52,13 @@ service.interceptors.response.use(
     return Promise.reject(errMsg);
   }
 );
-export default (method:string ,url:string ,data = null , config?:any)=>{
+export default (method:string ,url:string ,data?:object , config?:any)=>{
     method = method.toLowerCase()
     switch(method){
         case 'get':
             return service.get(url)
+        case 'post':
+          return service.post(url,data)
     }
 
 }

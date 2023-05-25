@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import LotteryModal from "@/commonComponents/LotteryModal.vue";
 import { Lottery, WinLotteryInfo } from "@/types/lottery";
-import { getLotteryItems, getLotteryWinner, getStyleConfig } from "@/api";
+import { getLotteryItems, getLotteryWinner, getStyleConfig, setFinish } from "@/api";
 
 setStyle()
 setLotteryList()
@@ -142,7 +142,9 @@ async function setLotteryList() {
 async function setwinLottery() {
   return new Promise(async (resolve, reject) => {
     const res = await getLotteryWinner()
-    console.log(res?.data)
+    setFinish({
+      SN:res?.data[0].SN
+    })
     winLotteryInfo.value = res?.data[0] 
     winlotteryIndex.value = res?.data[0].winid - 1
     resolve("")

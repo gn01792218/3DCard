@@ -9,3 +9,6 @@ export interface WinLotteryInfo {
   wintime:string,
   SN:number
 }
+export interface FinishData {
+  SN:number
+}
