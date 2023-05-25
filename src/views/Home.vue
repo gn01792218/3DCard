@@ -4,10 +4,14 @@
   >
     <section class="card-box">
       <div
-        class="card-item"
+        class="card-item "
         v-for="(card, index) in lotteryList"
         :key="card.name"
-        :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
+        :style="
+        `--i: ${index}; 
+        transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px); 
+        border-radius:${lotteryItemsRadius};
+        border:${lotteryItemsBorder}`"
       >
         <img :src="card.img" :alt="card.name" />
       </div>
@@ -183,6 +187,8 @@ const rotateDeg = computed(()=>360 / lotteryList.value.length);
 const mobileRainWidth = ref(250);
 const desktopRainWidth = ref(400);
 const rainWidth = ref(mobileRainWidth.value);
+const lotteryItemsRadius = ref('10px')
+const lotteryItemsBorder = ref('4px solid #ffffff')
 
 /**
  * 畫面顯示控制

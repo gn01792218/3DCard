@@ -11,7 +11,7 @@ body{
     transform: perspective(1000px) rotateX(0deg);
 }
 .card-box div {
-    @apply absolute top-0 left-0 w-full h-full;
+    @apply absolute top-0 left-0 w-full h-full overflow-hidden;
     transform-origin: center;
     transform-style: preserve-3d;
     transform: translateZ(1000px);
