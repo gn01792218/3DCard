@@ -5,7 +5,7 @@
     background-size: 100% 100%;
     `"
   >
-    <section class="card-box">
+    <section class="card-box" v-if="lotteryList.length">
       <div
         class="card-item"
         v-for="(card, index) in lotteryList"
@@ -18,6 +18,7 @@
         <img :src="card.img" :alt="card.name" />
       </div>
     </section>
+    <p v-else class="text-white">目前沒有任何獎項</p>
   </section>
   <section class="w-full flex justify-center">
     <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">
@@ -47,98 +48,7 @@ onMounted(() => {
 /**
  * lottery控制
  */
-let lotteryList = ref<Lottery[]>([
-  {
-    id: 1,
-    name: "p1",
-    img: "https://picsum.photos/id/65/200/200",
-    url: "",
-  },
-  {
-    id: 2,
-    name: "p2",
-    img: "https://picsum.photos/id/65/200/200",
-    url: "",
-  },
-  {
-    id: 3,
-    name: "p3",
-    img: "https://picsum.photos/id/85/200/200",
-    url: "",
-  },
-  {
-    id: 4,
-    name: "p4",
-    img: "https://picsum.photos/id/185/200/200",
-    url: "",
-  },
-  {
-    id: 5,
-    name: "p5",
-    img: "https://picsum.photos/id/67/200/200",
-    url: "",
-  },
-  {
-    id: 6,
-    name: "p6",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 7,
-    name: "p7",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-  {
-    id: 8,
-    name: "p8",
-    img: "https://picsum.photos/id/80/200/200",
-    url: "",
-  },
-  {
-    id: 9,
-    name: "p9",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 10,
-    name: "p10",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-  {
-    id: 11,
-    name: "p11",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 12,
-    name: "p12",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-  {
-    id: 13,
-    name: "p13",
-    img: "https://picsum.photos/id/80/200/200",
-    url: "",
-  },
-  {
-    id: 14,
-    name: "p14",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 15,
-    name: "p15",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-])
+let lotteryList = ref<Lottery[]>([])
 const winlotteryIndex = ref(0) //抽中的獎項index,根據資料來源index可能不同
 const getCardBoxElement = (): HTMLElement => {
   return document.querySelector(".card-box") as HTMLElement;
