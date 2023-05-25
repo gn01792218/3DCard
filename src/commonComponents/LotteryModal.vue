@@ -43,17 +43,19 @@
                 >
                   恭喜抽中
                 </h3>
-                <div class="mt-2">
-                  <p v-if="lottery" class="text-sm text-gray-500">{{ lottery.name }}</p>
+                <div class="mt-2 flex flex-col items-center">
+                  <p v-if="lottery" class="text-xl text-gray-500">{{ lottery.name }}</p>
+                  <p v-if="winLotteryInfo" class="text-md text-black-500">序號 : {{ winLotteryInfo.SN }}</p>
+                  <p v-if="winLotteryInfo" class="mt-1 text-sm text-gray-500">{{ winLotteryInfo.wintime }}</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button
+            <button v-if="lottery?.url" 
               type="button"
               class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-              @click="goToUrl(lottery?lottery.url:'')"
+              @click="goToUrl(lottery?lottery.url : '')"
             >
               前往領獎
             </button>
@@ -71,11 +73,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Lottery } from "@/types/lottery";
+import { Lottery, WinLotteryInfo } from "@/types/lottery";
 
 defineProps<{
   show: boolean;
   lottery: Lottery | null;
+  winLotteryInfo: WinLotteryInfo | null
 }>();
 const emit = defineEmits(["close"]);
 const goToUrl = (url:string) => {

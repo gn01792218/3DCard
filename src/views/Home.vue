@@ -15,7 +15,7 @@
         border-radius:${lotteryItemsRadius};
         border:${lotteryItemsBorder}`"
       >
-        <img :src="card.img" :alt="card.name" />
+        <img :src="card.img" :alt="card.name"/>
       </div>
     </section>
     <p v-else class="text-white">目前沒有任何獎項</p>
@@ -29,12 +29,13 @@
     v-show="showLottery"
     :show="showLottery"
     :lottery="lotteryList[winlotteryIndex]"
+    :winLotteryInfo="winLotteryInfo"
     @close="showLottery = false"
   />
 </template>
 <script setup lang="ts">
 import LotteryModal from "@/commonComponents/LotteryModal.vue";
-import { Lottery } from "@/types/lottery";
+import { Lottery, WinLotteryInfo } from "@/types/lottery";
 import { getLotteryItems, getLotteryWinner, getStyleConfig } from "@/api";
 
 setStyle()
@@ -49,6 +50,7 @@ onMounted(() => {
  * lottery控制
  */
 let lotteryList = ref<Lottery[]>([])
+const winLotteryInfo = ref<WinLotteryInfo | null>(null)
 const winlotteryIndex = ref(0) //抽中的獎項index,根據資料來源index可能不同
 const getCardBoxElement = (): HTMLElement => {
   return document.querySelector(".card-box") as HTMLElement;
@@ -68,7 +70,7 @@ const getLotteryAngle = (winLotteryIndex: number) => {
 
 const lottery = async () => {
   if(!lotteryList.value.length) return 
-  await setwinLotteryIndex()
+  await setwinLottery()
   // setRandomWinLotteryIndex()
   showLottery.value = false
   showLotteryBtn.value = false
@@ -137,9 +139,11 @@ async function setLotteryList() {
   const res = await getLotteryItems()
   lotteryList.value = res?.data
 }
-async function setwinLotteryIndex() {
+async function setwinLottery() {
   return new Promise(async (resolve, reject) => {
     const res = await getLotteryWinner()
+    console.log(res?.data)
+    winLotteryInfo.value = res?.data[0] 
     winlotteryIndex.value = res?.data[0].winid - 1
     resolve("")
   });
