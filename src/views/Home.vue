@@ -67,6 +67,7 @@ const getLotteryAngle = (winLotteryIndex: number) => {
 }
 
 const lottery = async () => {
+  if(!lotteryList.value.length) return 
   await setwinLotteryIndex()
   // setRandomWinLotteryIndex()
   showLottery.value = false
