@@ -21,8 +21,17 @@
     <p v-else class="text-white">目前沒有任何獎項</p>
   </section>
   <section class="w-full flex justify-center">
-    <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">
-      抽獎
+    <button 
+    class="lottery-btn bg-red-50" 
+    :class="{'animate-bounce':lotteryBtnAnimation}"
+    :style="`
+    background-color:${lotteryBtnStyleConfig.backgroundColor};
+    border-radius:${lotteryBtnStyleConfig.borderRadius};
+    border:${lotteryBtnStyleConfig.border};
+    `"
+    @click="lottery" 
+    v-show="showLotteryBtn">
+      {{ lotteryBtnStyleConfig.text }}
     </button>
   </section>
   <LotteryModal
@@ -30,15 +39,19 @@
     :show="showLottery"
     :lottery="lotteryList[winlotteryIndex]"
     :winLotteryInfo="winLotteryInfo"
+    :getLotteryBtnStyleConfig="getLotteryBtnStyleConfig"
+    :cancelBtnStyleConfig="cancelBtnStyleConfig"
     @close="showLottery = false"
   />
+  <img v-show="showLottery" class="absolute top-0 z-[11]" :src="winMovie" alt="得獎動畫">
 </template>
 <script setup lang="ts">
 import LotteryModal from "@/commonComponents/LotteryModal.vue";
 import { Lottery, WinLotteryInfo } from "@/types/lottery";
+import { BottonStyleConfig } from '@/types/gloable'
 import { getLotteryItems, getLotteryWinner, getStyleConfig, setFinish } from "@/api";
 
-setStyle()
+setStyleConfig()
 setLotteryList()
 
 onMounted(() => {
@@ -64,7 +77,7 @@ const setRandomWinLotteryIndex = () => {
 }
 const getLotteryAngle = (winLotteryIndex: number) => {
   let deg = (winLotteryIndex + 1) * rotateDeg.value
-  if (rotateDeg.value < 360) deg = baseRotateAngle + deg
+  if (rotateDeg.value < 360) deg = baseRotateAngle.value + deg
   return deg
 }
 
@@ -103,15 +116,35 @@ const lottery = async () => {
 /**
  * 基本變數調整
  */
-const baseRotateAngle = 720
 const rotateDeg = computed(() => 360 / lotteryList.value.length)
 const mobileRainWidth = ref(250)
 const desktopRainWidth = ref(400)
 const rainWidth = ref(mobileRainWidth.value)
+//below property will fetch StyleConfig to modify
+const baseRotateAngle = ref(720)
 const lotteryItemsRadius = ref("10px")
 const lotteryItemsBorder = ref("4px solid #ffffff")
 const bodyBackgroundImg = ref("")
-
+const lotteryBtnAnimation = ref(false)
+const lotteryBtnStyleConfig = ref<BottonStyleConfig>({
+  text:"",
+  backgroundColor:"",
+  border:"none",
+  borderRadius:"6px"
+})
+const getLotteryBtnStyleConfig = ref<BottonStyleConfig>({
+  text:"",
+  backgroundColor:"",
+  border:"none",
+  borderRadius:"6px"
+})
+const cancelBtnStyleConfig = ref<BottonStyleConfig>({
+  text:"",
+  backgroundColor:"",
+  border:"none",
+  borderRadius:"6px"
+})
+const winMovie =ref('')
 /**
  * 畫面顯示控制
  */
@@ -150,11 +183,28 @@ async function setwinLottery() {
     resolve("")
   });
 }
-async function setStyle(){
+async function setStyleConfig(){
   const res = await getStyleConfig() 
-  const { lotteryBorder, lotteryRadius, backgroundImg } = res?.data
+  const { 
+    lotteryBtn,
+    getLotteryBtn,
+    cancelBtn,
+    rolling,
+    lotteryBorder, 
+    lotteryRadius, 
+    backgroundImg,
+    buttonjumping,
+    winmovie
+   } = res?.data
+  lotteryBtnStyleConfig.value = lotteryBtn
+  getLotteryBtnStyleConfig.value = getLotteryBtn,
+  cancelBtnStyleConfig.value = cancelBtn,
+  baseRotateAngle.value = rolling * 360
   lotteryItemsBorder.value = lotteryBorder
   lotteryItemsRadius.value = lotteryRadius
   bodyBackgroundImg.value = backgroundImg
+  lotteryBtnAnimation.value = Boolean(buttonjumping)
+  winMovie.value = winmovie
+  console.log(winmovie)
 }
 </script>

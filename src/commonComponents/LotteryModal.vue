@@ -44,27 +44,44 @@
                   恭喜抽中
                 </h3>
                 <div class="mt-2 flex flex-col items-center">
-                  <p v-if="lottery" class="text-xl text-gray-500">{{ lottery.name }}</p>
-                  <p v-if="winLotteryInfo" class="text-md text-black-500">序號 : {{ winLotteryInfo.SN }}</p>
-                  <p v-if="winLotteryInfo" class="mt-1 text-sm text-gray-500">{{ winLotteryInfo.wintime }}</p>
+                  <p v-if="lottery" class="text-xl text-gray-500">
+                    {{ lottery.name }}
+                  </p>
+                  <p v-if="winLotteryInfo" class="text-md text-black-500">
+                    序號 : {{ winLotteryInfo.SN }}
+                  </p>
+                  <p v-if="winLotteryInfo" class="mt-1 text-sm text-gray-500">
+                    {{ winLotteryInfo.wintime }}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button v-if="lottery?.url" 
+            <button
+              v-if="lottery?.url"
               type="button"
-              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-              @click="goToUrl(lottery?lottery.url : '')"
+              class="inline-flex w-full justify-center px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
+              :style="`
+                background-color:${getLotteryBtnStyleConfig.backgroundColor};
+                border-radius:${getLotteryBtnStyleConfig.borderRadius};
+                border:${getLotteryBtnStyleConfig.border};
+              `"
+              @click="goToUrl(lottery ? lottery.url : '')"
             >
-              前往領獎
+              {{ getLotteryBtnStyleConfig.text }}
             </button>
             <button
               type="button"
-              class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              class="mt-3 inline-flex w-full justify-center px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              :style="`
+                background-color:${cancelBtnStyleConfig.backgroundColor};
+                border-radius:${cancelBtnStyleConfig.borderRadius};
+                border:${cancelBtnStyleConfig.border};
+              `"
               @click="emit('close')"
             >
-              Cancel
+              {{ cancelBtnStyleConfig.text }}
             </button>
           </div>
         </div>
@@ -74,15 +91,17 @@
 </template>
 <script setup lang="ts">
 import { Lottery, WinLotteryInfo } from "@/types/lottery";
-
+import { BottonStyleConfig } from "@/types/gloable";
 defineProps<{
   show: boolean;
   lottery: Lottery | null;
-  winLotteryInfo: WinLotteryInfo | null
+  winLotteryInfo: WinLotteryInfo | null;
+  getLotteryBtnStyleConfig: BottonStyleConfig;
+  cancelBtnStyleConfig: BottonStyleConfig;
 }>();
 const emit = defineEmits(["close"]);
-const goToUrl = (url:string) => {
-  window.open(url)
-}
+const goToUrl = (url: string) => {
+  window.open(url);
+};
 </script>
   
