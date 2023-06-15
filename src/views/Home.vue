@@ -43,7 +43,7 @@
     :cancelBtnStyleConfig="cancelBtnStyleConfig"
     @close="showLottery = false"
   />
-  <img v-show="showLottery" class="absolute top-0 z-[11]" :src="winMovie" alt="得獎動畫">
+  <img v-if="showLottery" class="absolute top-0 z-[11]" :src="winMovie" alt="得獎動畫">
 </template>
 <script setup lang="ts">
 import LotteryModal from "@/commonComponents/LotteryModal.vue";
