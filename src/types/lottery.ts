@@ -12,3 +12,6 @@ export interface WinLotteryInfo {
 export interface FinishData {
   SN:number
 }
+export interface GetWinnerRequest {
+  id:string | number
+}

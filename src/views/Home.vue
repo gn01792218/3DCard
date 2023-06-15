@@ -66,7 +66,7 @@ onMounted(() => {
  * 獲取使用者相關訊息
  */
 const route = useRoute()
-const userId = ref(route.params.id)
+const userId = ref<string | number>(route.params.id as string | number)
 
 /**
  * lottery控制
@@ -189,7 +189,9 @@ async function setLotteryList() {
 }
 async function setwinLottery() {
   return new Promise(async (resolve, reject) => {
-    const res = await getLotteryWinner()
+    const res = await getLotteryWinner({
+      id:userId.value
+    })
     setFinish({
       SN:res?.data[0].SN
     })
