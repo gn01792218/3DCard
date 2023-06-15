@@ -17,7 +17,7 @@
           class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
         >
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
+            <div class="flex flex-col items-center">
               <div
                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-400 sm:mx-0 sm:h-10 sm:w-10"
               >
@@ -36,17 +36,18 @@
                   ></path>
                 </svg>
               </div>
-              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3
+              <div class="mt-3 text-center">
+                <p
                   class="text-base font-semibold leading-6 text-gray-900"
                   id="modal-title"
                 >
                   恭喜抽中
-                </h3>
+                </p>
                 <div class="mt-2 flex flex-col items-center">
                   <p v-if="lottery" class="text-xl text-gray-500">
                     {{ lottery.name }}
                   </p>
+                  <img class="w-[50%] w-[150px] md:w-[200px]" :src="lottery?.img" :alt="lottery?.name">
                   <p v-if="winLotteryInfo" class="text-md text-black-500">
                     序號 : {{ winLotteryInfo.SN }}
                   </p>
@@ -57,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <div class="bg-gray-50 px-4 py-3 flex justify-center">
             <button
               v-if="lottery?.url"
               type="button"
