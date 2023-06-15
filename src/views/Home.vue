@@ -7,10 +7,10 @@
   >
     <section class="card-box" v-if="lotteryList.length">
       <div
-        class="card-item"
         v-for="(card, index) in lotteryList"
         :key="card.name"
         :style="`--i: ${index}; 
+        background-color:${lotteryItemBackgroundColor};
         transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px); 
         border-radius:${lotteryItemsRadius};
         border:${lotteryItemsBorder}`"
@@ -123,6 +123,7 @@ const rainWidth = ref(mobileRainWidth.value)
 //below property will fetch StyleConfig to modify
 const baseRotateAngle = ref(720)
 const lotteryItemsRadius = ref("10px")
+const lotteryItemBackgroundColor = ref("#ffffff")
 const lotteryItemsBorder = ref("4px solid #ffffff")
 const bodyBackgroundImg = ref("")
 const lotteryBtnAnimation = ref(false)
@@ -190,6 +191,7 @@ async function setStyleConfig(){
     getLotteryBtn,
     cancelBtn,
     rolling,
+    lotteryBackgroundColor,
     lotteryBorder, 
     lotteryRadius, 
     backgroundImg,
@@ -200,11 +202,11 @@ async function setStyleConfig(){
   getLotteryBtnStyleConfig.value = getLotteryBtn,
   cancelBtnStyleConfig.value = cancelBtn,
   baseRotateAngle.value = rolling * 360
+  lotteryItemBackgroundColor.value = lotteryBackgroundColor
   lotteryItemsBorder.value = lotteryBorder
   lotteryItemsRadius.value = lotteryRadius
   bodyBackgroundImg.value = backgroundImg
   lotteryBtnAnimation.value = Boolean(buttonjumping)
   winMovie.value = winmovie
-  console.log(winmovie)
 }
 </script>
