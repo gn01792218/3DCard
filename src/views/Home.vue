@@ -20,7 +20,8 @@
     </section>
     <p v-else class="text-white">目前沒有任何獎項</p>
   </section>
-  <section class="w-full flex justify-center">
+  <section class="relative w-full flex justify-center">
+   <p class="absolute bottom-2 text-gray-200 font-extrabold">使用者Id : {{ userId }}</p>
     <button 
     class="lottery-btn bg-red-50" 
     :class="{'animate-bounce':lotteryBtnAnimation}"
@@ -49,8 +50,10 @@
 import LotteryModal from "@/commonComponents/LotteryModal.vue";
 import { Lottery, WinLotteryInfo } from "@/types/lottery";
 import { BottonStyleConfig } from '@/types/gloable'
-import { getLotteryItems, getLotteryWinner, getStyleConfig, setFinish } from "@/api";
+import { getGameInit, getLotteryItems, getLotteryWinner, getStyleConfig, setFinish } from "@/api";
+import { useRoute } from "vue-router";
 
+gameInit()
 setStyleConfig()
 setLotteryList()
 
@@ -58,6 +61,12 @@ onMounted(() => {
   initCardBoxRainSize()
   addCardBoxResponsive()
 })
+
+/**
+ * 獲取使用者相關訊息
+ */
+const route = useRoute()
+const userId = ref(route.params.id)
 
 /**
  * lottery控制
@@ -169,6 +178,11 @@ const addCardBoxResponsive = () => {
 /**
  * API
  */
+async function gameInit(){
+  getGameInit()?.then(res=>{
+    document.title = res.data.title
+  })
+}
 async function setLotteryList() {
   const res = await getLotteryItems()
   lotteryList.value = res?.data

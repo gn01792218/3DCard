@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw ,createWebHashHistory} f
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/:id',
     name: 'Home',
     component:()=>import('@/views/Home.vue')
   },

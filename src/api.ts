@@ -1,5 +1,8 @@
 import req from './http'
 import { FinishData } from '@/types/lottery'
+export const getGameInit = () => {
+  return req('get','GetGameInit.php')
+}
 export const getLotteryItems = () => {
   return req('get','GetItem.php')
 }
