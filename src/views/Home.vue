@@ -179,9 +179,8 @@ const addCardBoxResponsive = () => {
  * API
  */
 async function gameInit(){
-  getGameInit()?.then(res=>{
-    document.title = res.data.title
-  })
+   const res = await getGameInit()
+   document.title = res?.data.title
 }
 async function setLotteryList() {
   const res = await getLotteryItems()
