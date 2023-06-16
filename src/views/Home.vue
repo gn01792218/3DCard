@@ -191,9 +191,12 @@ async function setwinLottery() {
     const res = await getLotteryWinner({
       id:userId.value
     })
+    if(res?.data[0].count <= 0) return alert(res?.data[0].errmsg)  //抽獎次數<=0就不給抽
+
     setFinish({
       SN:res?.data[0].SN
     })
+
     winLotteryInfo.value = res?.data[0] 
     winlotteryIndex.value = res?.data[0].winid - 1
     resolve("")
