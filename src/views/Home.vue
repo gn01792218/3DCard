@@ -85,7 +85,7 @@ const setRandomWinLotteryIndex = () => {
   winlotteryIndex.value = Math.floor(Math.random() * lotteryList.value.length);
 }
 const getLotteryAngle = (winLotteryIndex: number) => {
-  let deg = (winLotteryIndex + 1) * rotateDeg.value
+  let deg = -(winLotteryIndex) * rotateDeg.value
   if (rotateDeg.value < 360) deg = baseRotateAngle.value + deg
   return deg
 }
